@@ -10,7 +10,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent
-      ],
+      ]
     }).compileComponents();
   }));
 
@@ -20,16 +20,25 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'barcode-scanner-qr-generator'`, () => {
+  it(`should match required Format as 'MISHIPAY|BarcodeType|BarcodeValue' for Qr code data`, () => {
+    const barCodeResultData = {
+      getText: () => {
+        return '978020137962';
+      },
+      getBarcodeFormat: () => {
+        return 4;
+      }
+    };
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('barcode-scanner-qr-generator');
+    expect(app.convertBarCodeResultToRequiredFormat(barCodeResultData)).toEqual('MISHIPAY|CODE128|978020137962');
   });
 
-  it('should render title', () => {
+  it('should render a SVG element having QR code', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('barcode-scanner-qr-generator app is running!');
+    const app = fixture.debugElement.componentInstance;
+    app.barcodeResultString = 'MISHIPAY|CODE128|978020137962';
+    app.showQrCode();
+    expect(app.qrCode.nativeElement.children[0] instanceof SVGSVGElement).toEqual(true);
   });
 });
