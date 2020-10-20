@@ -53,7 +53,7 @@ export class AppComponent implements AfterViewInit {
 // converting barcode result data to required format
   convertBarCodeResultToRequiredFormat(result) {
     const format = result.getBarcodeFormat() === BarcodeFormat.EAN_13 ? 'EAN13' : 'CODE128';
-    return `MISHIPAY|${format}|${result.getText()}`;
+    return `BSQRG|${format}|${result.getText()}`;
   }
 
   // print Qr code on Screen
